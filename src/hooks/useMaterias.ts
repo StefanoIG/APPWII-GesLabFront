@@ -1,13 +1,7 @@
 // src/hooks/useMaterias.ts
 import { useState, useEffect, useCallback } from 'react';
 import apiClient from '../api/apiClient';
-
-// --- Interface ---
-export interface Materia {
-  id: number;
-  nombre: string;
-  codigo: string;
-}
+import type { Materia } from '../types';
 
 // --- Hook ---
 export const useMaterias = () => {

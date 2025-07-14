@@ -1,12 +1,7 @@
 // src/hooks/useLaboratorios.ts
 import { useState, useEffect, useCallback } from 'react';
 import apiClient from '../api/apiClient';
-
-export interface Laboratorio {
-  id: number;
-  nombre: string;
-  capacidad: number;
-}
+import type { Laboratorio } from '../types';
 
 export const useLaboratorios = () => {
   const [laboratorios, setLaboratorios] = useState<Laboratorio[]>([]);
@@ -40,5 +35,35 @@ export const useLaboratorios = () => {
     }
   };
 
-  return { laboratorios, loading, createLaboratorio, refresh: fetchLaboratorios };
+  const updateLaboratorio = async (id: number, data: Partial<Omit<Laboratorio, 'id'>>) => {
+    try {
+      const response = await apiClient.put(`/v1/laboratorios/${id}`, data);
+      // Actualizamos el laboratorio específico en nuestro estado local
+      setLaboratorios(prev => prev.map(lab => (lab.id === id ? { ...lab, ...response.data } : lab)));
+      return response.data;
+    } catch (error) {
+      console.error("Error al actualizar el laboratorio", error);
+      throw error;
+    }
+  };
+
+  const deleteLaboratorio = async (id: number) => {
+    try {
+      await apiClient.delete(`/v1/laboratorios/${id}`);
+      // Filtramos el laboratorio eliminado del estado local
+      setLaboratorios(prev => prev.filter(lab => lab.id !== id));
+    } catch (error) {
+      console.error("Error al eliminar el laboratorio", error);
+      throw error;
+    }
+  };
+
+  return { 
+    laboratorios, 
+    loading, 
+    createLaboratorio, 
+    updateLaboratorio, 
+    deleteLaboratorio, 
+    refresh: fetchLaboratorios 
+  };
 };

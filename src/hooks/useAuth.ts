@@ -7,7 +7,7 @@ export const useAuth = () => {
   const { setToken, logout: logoutFromStore } = useAuthStore();
   const navigate = useNavigate();
 
-  const login = async (email, password) => {
+  const login = async (email: string, password: string) => {
     try {
       const response = await apiClient.post('/auth/login', { email, password });
       const { access_token } = response.data;

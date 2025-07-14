@@ -1,27 +1,7 @@
 // src/hooks/useReservas.ts
 import { useState, useEffect, useCallback } from 'react';
 import apiClient from '../api/apiClient';
-
-// --- Interfaces ---
-export interface Reserva {
-  id: number;
-  fecha: string;
-  hora_inicio: string;
-  hora_fin: string;
-  estado: string;
-  motivo: string;
-  laboratorio: { id: number; nombre: string; };
-  usuario: { id: number; nombre: string; };
-}
-
-export interface NuevaReserva {
-  laboratorio_id: number;
-  materia_id?: number | null;
-  fecha: string;
-  hora_inicio: string;
-  hora_fin: string;
-  motivo: string;
-}
+import type { Reserva, NuevaReserva } from '../types';
 
 // --- Hook ---
 export const useReservas = () => {
@@ -50,7 +30,7 @@ export const useReservas = () => {
     try {
       const response = await apiClient.post('/v1/reservas', data);
       // Refrescamos la lista para mostrar la nueva reserva
-      fetchReservas(); 
+      fetchReservas();
       return response.data;
     } catch (error) {
       // Pasamos el error para que el componente lo maneje (ej. mostrar un toast)
@@ -72,7 +52,7 @@ export const useReservas = () => {
   const extendReserva = async (id: number, minutos: number) => {
     try {
       const response = await apiClient.post(`/v1/reservas/${id}/extender`, { minutos_extension: minutos });
-       fetchReservas(); // Refrescamos para obtener la hora actualizada
+      fetchReservas(); // Refrescamos para obtener la hora actualizada
       return response.data;
     } catch (error) {
       throw error;
