@@ -1,10 +1,11 @@
 // src/api/apiClient.ts
 import axios from 'axios';
-import { API_BASE_URL } from '../config';
+import { APP_CONFIG } from '../config';
 import { useAuthStore } from '../store/authStore';
 
 const apiClient = axios.create({
-  baseURL: API_BASE_URL,
+  baseURL: APP_CONFIG.API_BASE_URL,
+  timeout: APP_CONFIG.API_TIMEOUT,
   headers: {
     'Content-Type': 'application/json',
   },

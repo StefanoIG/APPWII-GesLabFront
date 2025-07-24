@@ -1,0 +1,28 @@
+# docker-compose.dev.yml
+version: '3.8'
+
+services:
+  # Servicio del Frontend React en modo desarrollo
+  frontend-dev:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    container_name: geslab-frontend-dev
+    ports:
+      - "3000:5173"  # Vite dev server port
+    environment:
+      - NODE_ENV=development
+      - VITE_API_BASE_URL=http://localhost:8000/api
+    volumes:
+      - .:/app
+      - /app/node_modules
+    networks:
+      - geslab-network
+    restart: unless-stopped
+    stdin_open: true
+    tty: true
+
+# Red personalizada
+networks:
+  geslab-network:
+    driver: bridge
