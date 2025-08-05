@@ -1,7 +1,7 @@
 // src/config/index.ts
 
 // Configuración de la API que puede ser sobrescrita por variables de entorno
-export const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000/api';
+export const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8443/api';
 
 // Otras configuraciones de la aplicación
 export const APP_CONFIG = {
